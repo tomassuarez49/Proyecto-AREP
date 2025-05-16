@@ -2,6 +2,18 @@
 
 Este repositorio contiene un prototipo funcional de un sistema de monitoreo climático en tiempo real. Está diseñado para recolectar, procesar, almacenar y visualizar datos meteorológicos utilizando servicios de AWS, Python, Streamlit y modelos de Machine Learning.
 
+
+
+
+---
+
+## 🙋‍♂️ Autores
+
+- **Tomás Suárez**
+- **Ricardo Villamizar**
+- **Andres Rodriguez**
+
+
 ---
 
 ## 🎯 Objetivo
@@ -194,16 +206,6 @@ Algoritmo: `RandomForestClassifier` con una precisión estimada superior al 85%.
 ![image](https://github.com/user-attachments/assets/f6993c47-f46f-4129-9060-43b87c690514)
 ![image](https://github.com/user-attachments/assets/7211c94f-a7de-47b7-8e99-b9a5ce54f2e0)
 ![image](https://github.com/user-attachments/assets/f2166c7c-41cd-48c6-a710-7d77b6cbc3c4)
-
-
-
----
-
-## 🙋‍♂️ Autores
-
-- **Tomás Suárez**
-- **Ricardo Villamizar**
-- **Andres Rodriguez**
 
 ---
 
