@@ -1,11 +1,29 @@
+import boto3
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import joblib
 
-# Cargar el dataset
-df = pd.read_csv("weatherHistory.csv")
+# Configurar DynamoDB
+dynamodb = boto3.resource('dynamodb', region_name='us-east-1')  # Ajusta región
+tabla = dynamodb.Table('ClimaPredicciones')
+
+# Escaneo completo de la tabla
+def scan_dynamodb(tabla):
+    datos = []
+    response = tabla.scan()
+    datos.extend(response['Items'])
+
+    while 'LastEvaluatedKey' in response:
+        response = tabla.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
+        datos.extend(response['Items'])
+    
+    return datos
+
+# Obtener y transformar datos
+items = scan_dynamodb(tabla)
+df = pd.DataFrame(items)
 
 # Eliminar filas sin 'Precip Type'
 df = df[df["Precip Type"].notna()]
