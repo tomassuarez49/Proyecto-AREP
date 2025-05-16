@@ -75,31 +75,93 @@ climate-monitoring-prototype/
 
 ---
 
-### 📦 1. Modelo de Predicción (EC2 #1)
+## ⚙️ Instalación y Ejecución
 
-```bash
-# Entrena el modelo
-cd model-ec2
-pip install -r requirements.txt  # incluye flask, scikit-learn, pandas, joblib
-python entrenamiento.py
+### 🔧 Requisitos previos
 
-# Ejecuta la API Flask
-python app.py
-# Corre en http://<IP_EC2>:5000/predecir
-```
+Antes de comenzar, asegúrate de tener:
+
+- Una cuenta en AWS con acceso a EC2, Lambda, DynamoDB y EventBridge.
+- Dos instancias EC2 (una para el modelo ML y otra para el dashboard).
+- Acceso por SSH a ambas máquinas EC2.
+- Python 3.9 instalado en ambas instancias (`python3 --version`).
+- Claves de API de OpenWeather.
 
 ---
 
-### 📦 2. Dashboard Visual (EC2 #2)
+### 📦 1. Configurar EC2 para el Modelo ML
+
+1. **Conéctate por SSH** a la primera EC2:
 
 ```bash
-cd dashboard-ec2
-pip install streamlit pandas
-
-# Asegúrate de tener 'datos_clima.csv' actualizado
-streamlit run dashboard.py
-# Abre en http://<IP_EC2>:8501
+ssh -i "tu_clave.pem" ec2-user@<IP_EC2_1>
 ```
+
+2. **Sube los archivos necesarios** (`app.py`, `entrenamiento.py`, `weatherHistory.csv`, `requirements.txt`).
+
+3. **Instala las dependencias**:
+
+```bash
+sudo apt update
+sudo apt install python3-pip -y
+pip3 install -r requirements.txt
+```
+
+4. **Entrena y guarda el modelo**:
+
+```bash
+python3 entrenamiento.py
+```
+
+Esto generará `modelo_lluvia.pkl`.
+
+5. **Ejecuta el servidor Flask**:
+
+```bash
+python3 app.py
+```
+
+Accede al modelo en `http://<IP_EC2_1>:5000/predecir`.
+
+---
+
+### 📦 2. Configurar EC2 para el Dashboard
+
+1. **Conéctate por SSH** a la segunda EC2:
+
+```bash
+ssh -i "tu_clave.pem" ec2-user@<IP_EC2_2>
+```
+
+2. **Sube los archivos `dashboard.py`, `datos_clima.csv`, `requirements.txt`**.
+
+3. **Instala dependencias**:
+
+```bash
+pip3 install -r requirements.txt
+```
+
+4. **Ejecuta Streamlit**:
+
+```bash
+streamlit run dashboard.py --server.port 8501 --server.enableCORS false
+```
+
+5. Accede al dashboard desde tu navegador:
+
+```
+http://<IP_EC2_2>:8501
+```
+
+⚠️ Asegúrate de que el puerto 8501 esté abierto en el grupo de seguridad de la EC2.
+
+---
+
+### ⚙️ AWS Lambda y EventBridge
+
+1. **Crea una función Lambda** que consuma la API de OpenWeather, llame a la API de predicción y guarde los datos en DynamoDB.
+2. Usa **EventBridge** para programar la ejecución automática cada hora o día.
+3. Asigna roles IAM con permisos sobre DynamoDB y acceso HTTP.
 
 ---
 
