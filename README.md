@@ -59,8 +59,6 @@ climate-monitoring-prototype/
 │   ├── dashboard.py         # Aplicación Streamlit
 │   └── datos_clima.csv      # Datos históricos para visualización
 │
-├── diagrams/
-│   └── arquitectura-prototipo.png  # Diagrama del sistema
 │
 └── README.md
 ```
@@ -129,36 +127,13 @@ Algoritmo: `RandomForestClassifier` con una precisión estimada superior al 85%.
 
 ---
 
-## 📈 Ejemplo de Uso de API (Modelo ML)
+## 📈 Resultados
 
-**POST** a `/predecir` con JSON:
+![image](https://github.com/user-attachments/assets/f6993c47-f46f-4129-9060-43b87c690514)
+![image](https://github.com/user-attachments/assets/7211c94f-a7de-47b7-8e99-b9a5ce54f2e0)
+![image](https://github.com/user-attachments/assets/f2166c7c-41cd-48c6-a710-7d77b6cbc3c4)
 
-```json
-{
-  "humedad": 85,
-  "presion": 1012,
-  "temperatura": 22,
-  "visibilidad": 10,
-  "viento": 3,
-  "nubes": 90,
-  "descripcion": "overcast clouds"
-}
-```
 
-**Respuesta:**
-
-```json
-{
-  "lluvia_probable": true,
-  "input": {
-    "humedad": 85,
-    "presion": 1012,
-    "temperatura": 22,
-    "visibilidad": 10,
-    "viento": 3
-  }
-}
-```
 
 ---
 
